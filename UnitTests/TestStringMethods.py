@@ -1,11 +1,12 @@
 import unittest
-from UnitTests import TestFirst
+import Utilitys.HTMLTestRunner as HTMLRunner
 
 class TestStringMethods(unittest.TestCase):
     
     def setUp(self):
         print("this is setup")
-    
+        print(self._testMethodName)
+
     def tearDown(self):
         print("this is tear down")
 
@@ -23,20 +24,18 @@ class TestStringMethods(unittest.TestCase):
         with self.assertRaises(TypeError):
             s.split(2)
     
-    def suite(self):
-        loader = unittest.TestLoader();
-        suite = unittest.TestSuite()
-        suite1 = loader.loadTestsFromTestCase("TestFirst")
-        print("suite")
-        print(type(suite1))
-        
-        suite.addTest(TestStringMethods('test_upper'))
-        suite.addTest(TestStringMethods('test_isupper'))
-        suite.addTest(TestFirst.TestFirstClass('test_firstMethod'))
+def suite():
+    suite = unittest.TestSuite()
 
-        return suite
+    suite.addTest(TestStringMethods('test_upper'))
+    suite.addTest(TestStringMethods('test_isupper'))
+    return suite
 
-    if __name__ == '__main__':
-        runner = unittest.TextTestRunner()
-        runner.run(suite())
+if __name__ == '__main__':
+    #runner = unittest.TextTestRunner()
+    outfile = open("/Users/rajiv/Documents/Automation/PythonPractice/Report.html", "w")
+    
+    runner = HTMLRunner.HTMLTestRunner(stream=outfile,title='Test Report',description='This demonstrates the report output by Prasanna.Yelsangikar.')
+    
+    runner.run(suite())
         
